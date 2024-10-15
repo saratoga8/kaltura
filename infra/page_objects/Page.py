@@ -1,17 +1,9 @@
-from enum import Enum
-
 from pytest_selenium import driver
 from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.webdriver import WebDriver
 
 from infra.page_elements.task import Task
-
-
-class Filters(Enum):
-    COMPLETED = 1
-    ACTIVE = 2
-    ALL = 3
 
 
 class Page:
@@ -40,8 +32,7 @@ class Page:
 
     def add_task(self, name: str):
         element = self._driver.find_element(By.CSS_SELECTOR, 'input.new-todo')
-        element.send_keys(name)
-        element.send_keys(Keys.ENTER)
+        element.send_keys(name + Keys.ENTER)
 
     def clear_completed(self):
         element = self._driver.find_element(By.CSS_SELECTOR, 'button.clear-completed')

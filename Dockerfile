@@ -14,14 +14,12 @@ RUN apt-get update && apt-get install -y \
     echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" > /etc/apt/sources.list.d/google-chrome.list && \
     apt-get update && apt-get install -y google-chrome-stable
 
-# Download and install ChromeDriver
 RUN wget https://storage.googleapis.com/chrome-for-testing-public/129.0.6668.100/linux64/chromedriver-linux64.zip && \
     unzip chromedriver-linux64.zip && \
     mv chromedriver-linux64/chromedriver /usr/local/bin/ && \
     chmod +x /usr/local/bin/chromedriver && \
     rm chromedriver-linux64.zip
 
-# Run ChromeDriver in the background
 RUN nohup chromedriver &
 
 ENV IN_CONTAINER="True"

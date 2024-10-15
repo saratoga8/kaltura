@@ -30,5 +30,4 @@ class Task:
         ActionChains(self._driver).double_click(label).perform()
         element = self._root.find_element(By.ID, "edit-todo-input")
         element.send_keys(Keys.CONTROL, 'A')
-        element.send_keys(name)
-        element.send_keys(Keys.ENTER)
+        element.send_keys(name + Keys.ENTER)
