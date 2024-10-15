@@ -1,0 +1,24 @@
+name: Tests workflow
+
+on:
+  push:
+    branches:
+      - "*"
+
+env:
+  DOCKER_IMAGE_NAME: todo
+
+jobs:
+  tests:
+    name: TODOs web testing
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repo
+        uses: actions/checkout@v4
+
+      - name: Build project image
+        run: docker build . --file Dockerfile --tag $DOCKER_IMAGE_NAME
+
+      - name: Web tests run
+        run: docker run --rm $DOCKER_IMAGE_NAME
