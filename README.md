@@ -17,7 +17,7 @@ The way of implementation relates to the BDD methodology. You can read more [her
 
 
 ### To build and run the project
- - From source(one of the scripts):   
+  - From source(no need of ChromeDriver install):   
            `./run.sh` - run tests sequentially  
            `./run-parallel.sh` - run tests in parallel
  - In Docker container:   
