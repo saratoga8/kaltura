@@ -4,6 +4,7 @@ from pytest_bdd import given
 
 import pytest
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.chrome.service import Service as ChromeService
 from selenium.webdriver.chrome.webdriver import WebDriver
 from webdriver_manager.chrome import ChromeDriverManager
@@ -11,14 +12,21 @@ from webdriver_manager.chrome import ChromeDriverManager
 from infra.page_objects.Page import Page
 
 
+def _get_headed_driver() -> WebDriver:
+    headless = bool(os.getenv('HEADLESS', False))
+    service = ChromeService(ChromeDriverManager().install())
+    return webdriver.Chrome(service=service, options=_get_chrome_opts() if headless else None)
+
+
+def _get_chrome_opts() -> Options:
+    options = webdriver.ChromeOptions()
+    options.arguments.extend(["--headless=new", "--no-sandbox", "--disable-setuid-sandbox"])
+    return options
+
+
 def _get_driver() -> WebDriver:
     run_in_container = bool(os.getenv('IN_CONTAINER', False))
-    if run_in_container:
-        options = webdriver.ChromeOptions()
-        options.arguments.extend(["--headless=new", "--no-sandbox", "--disable-setuid-sandbox"])
-        return webdriver.Chrome(options=options)
-    else:
-        return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
+    return webdriver.Chrome(options=_get_chrome_opts()) if run_in_container else _get_headed_driver()
 
 
 @pytest.fixture()

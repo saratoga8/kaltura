@@ -11,10 +11,14 @@ The way of implementation relates to the BDD methodology. You can read more [her
     ├── tests
     |    ├── features                       Files with the Gherkin scenarios of features
     |    └── step_defs                      Code implementation of the steps used for building Gherkin scenarios
+    ├── run-parallel.sh                     Local running of the test in parallel mode
     └── run.sh                              Local running of the tests (includes project install)
 
+
 ### To build and run the project
- - From source: `./run.sh`  
+ - From source(one of the scripts):   
+           `./run.sh` - run tests sequentially  
+           `./run-parallel.sh` - run tests in parallel
  - In Docker container:   
 `docker build -t todos .`  
 `docker run todos:latest`
