@@ -5,6 +5,7 @@ To implement the UI testing of the TodoMVC site
 The way of implementation relates to the BDD methodology. You can read more [here](https://en.wikipedia.org/wiki/Behavior-driven_development)
 
 ### The project structure
+    ├── .github                             GitHub Actions Workflow
     ├── infra                               Infrastructure of tests  
     |    ├── page_elements                  Commonly used models of page elements for building page objects  
     |    └── page_objects                   Functional models of the pages being tested
