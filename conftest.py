@@ -11,13 +11,11 @@ from webdriver_manager.chrome import ChromeDriverManager
 from infra.page_objects.Page import Page
 
 
-def get_driver() -> WebDriver:
+def _get_driver() -> WebDriver:
     run_in_container = bool(os.getenv('IN_CONTAINER', False))
-
-    options = webdriver.ChromeOptions()
-    options.arguments.extend(["--headless=new", "--no-sandbox", "--disable-setuid-sandbox"])
-
     if run_in_container:
+        options = webdriver.ChromeOptions()
+        options.arguments.extend(["--headless=new", "--no-sandbox", "--disable-setuid-sandbox"])
         return webdriver.Chrome(options=options)
     else:
         return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
@@ -25,9 +23,10 @@ def get_driver() -> WebDriver:
 
 @pytest.fixture()
 def chrome_browser() -> WebDriver:
-    driver = get_driver()
+    driver = _get_driver()
     driver.implicitly_wait(10)
     yield driver
+
     driver.save_screenshot('/tmp/error.png')
     driver.quit()
 
