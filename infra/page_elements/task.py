@@ -15,22 +15,25 @@ class Task:
 
     @property
     def name(self) -> str:
-        return TextField(self.__root, 'Name', 'label', By.TAG_NAME).get_text()
+        return TextField(self.__root, "Name", "label", By.TAG_NAME).text
 
     def complete(self):
-        Button(self.__driver, 'Complete', 'input[type="checkbox"]').click()
+        Button(self.__driver, "Complete", 'input[type="checkbox"]').click()
 
     @property
     def is_completed(self):
-        return self.__root.get_attribute('class') == 'completed'
+        return self.__root.get_attribute("class") == "completed"
 
     def delete(self):
-        button = Button(self.__root, 'X', 'button.destroy').get_web_element()
+        button = Button(self.__root, "X", "button.destroy").get_web_element()
         ActionChains(self.__driver).move_to_element(self.__root).click(button).perform()
 
-    def rename(self, name: str):
-        label = Element(self.__root, 'Task Label', 'label', By.TAG_NAME).get_web_element()
+    @name.setter
+    def name(self, name: str):
+        label = Element(
+            self.__root, "Task Label", "label", By.TAG_NAME
+        ).get_web_element()
         ActionChains(self.__driver).double_click(label).perform()
-        txt_field = TextField(self.__root, 'Edit name', "edit-todo-input", By.ID)
-        txt_field.get_web_element().send_keys(Keys.CONTROL, 'A')
-        txt_field.type_in(name)
+        txt_field = TextField(self.__root, "Edit name", "edit-todo-input", By.ID)
+        txt_field.get_web_element().send_keys(Keys.CONTROL, "A")
+        txt_field.text = name
