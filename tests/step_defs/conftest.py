@@ -13,7 +13,7 @@ from infra.page_objects.Page import Page
 
 
 def _get_headed_driver() -> WebDriver:
-    headless = bool(os.getenv('HEADLESS', False))
+    headless = bool(os.getenv("HEADLESS", False))
     service = ChromeService(ChromeDriverManager().install())
     return webdriver.Chrome(service=service, options=_get_chrome_opts() if headless else None)
 
@@ -25,17 +25,17 @@ def _get_chrome_opts() -> Options:
 
 
 def _get_driver() -> WebDriver:
-    run_in_container = bool(os.getenv('IN_CONTAINER', False))
+    run_in_container = bool(os.getenv("IN_CONTAINER", False))
     return webdriver.Chrome(options=_get_chrome_opts()) if run_in_container else _get_headed_driver()
 
 
-@pytest.fixture()
+@pytest.fixture(autouse=True)
 def chrome_browser() -> WebDriver:
     driver = _get_driver()
     driver.implicitly_wait(10)
     yield driver
 
-    driver.save_screenshot('/tmp/error.png')
+    driver.save_screenshot("/tmp/error.png")
     driver.quit()
 
 
