@@ -23,7 +23,7 @@ class Page:
     @property
     def tasks(self) -> list[Task]:
         elements = self.__driver.find_elements(By.CSS_SELECTOR, "ul.todo-list li")
-        return list(map(lambda element: Task(element, self.__driver), elements))
+        return list(map(lambda element: Task(element, self.__driver), elements)) if elements else []
 
     def open(self):
         self.__driver.get(Page.url)

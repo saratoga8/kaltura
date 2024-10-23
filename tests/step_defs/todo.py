@@ -10,11 +10,12 @@ scenarios("todo-tasks.feature")
 
 class _TasksNumber(object):
     def __init__(self, number: int):
-        self._awaited_num = number
+        self.__awaited_num = number
 
     def __call__(self, driver: WebDriver):
+        driver.implicitly_wait(.2)
         tasks = Page(driver).tasks
-        return len(tasks) == self._awaited_num
+        return len(tasks) == self.__awaited_num
 
 
 @when("user adds a task", target_fixture="name")
