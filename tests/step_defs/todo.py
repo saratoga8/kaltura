@@ -5,6 +5,8 @@ from selenium.webdriver.support.wait import WebDriverWait
 from infra.page_elements.task import Task
 from infra.page_objects.Page import Page
 
+import re
+
 scenarios("todo-tasks.feature")
 
 
@@ -13,7 +15,7 @@ class _TasksNumber(object):
         self.__awaited_num = number
 
     def __call__(self, driver: WebDriver):
-        driver.implicitly_wait(.2)
+        driver.implicitly_wait(0.2)
         tasks = Page(driver).tasks
         return len(tasks) == self.__awaited_num
 
@@ -124,9 +126,10 @@ def _(filter_name: str, chrome_browser: WebDriver):
     page.filter_by(filter_name)
 
 
-@then(parsers.parse("there is the tasks:{tasks}"))
-def _(tasks: str, chrome_browser: WebDriver):
+@then(parsers.re(r"there are the tasks:(?P<names_txt>\n*.*)", re.DOTALL), converters={"names_txt": str})
+def _(names_txt: str, chrome_browser: WebDriver):
+    names: list[str] = names_txt.replace(" ", "").replace("|", "").split("\n")
+    expected_tasks = list(filter(lambda name: name, names))
     page = Page(chrome_browser)
-    expected_tasks = tasks.replace(" ", "").split(",")
     actual_tasks = list(map(lambda task: task.name, page.tasks))
     assert expected_tasks == actual_tasks, "Invalid list of tasks"

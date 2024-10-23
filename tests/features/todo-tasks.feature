@@ -33,12 +33,15 @@ Feature: TODO tasks management
        | Done          | COMPLETED |
        | Active        | ACTIVE    |
 
+    @wip
   Scenario: Filtering all tasks
     When user adds a task "Done"
     And user completes the task "Done"
     And user adds a task "Active"
     And user filters ALL tasks
-    Then there is the tasks: Done, Active
+    Then there are the tasks:
+      | Done   |
+      | Active |
 
   Scenario: Edit task name
     When user adds a task "Old"
